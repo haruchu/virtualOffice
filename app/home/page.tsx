@@ -1,10 +1,15 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Room, RoomType } from "../components/atoms/room";
-import { Wrapper } from "./style";
+import { ButtonWrapper, Wrapper } from "./style";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 const Home = () => {
   const router = useRouter();
+  const { data: session } = useSession();
+
+  if (session == null) redirect("/login");
 
   // room一覧、部屋に参加しているユーザーは今後DBからとってくる
   const rooms: {
@@ -35,6 +40,19 @@ const Home = () => {
 
   return (
     <Wrapper>
+      <ButtonWrapper>
+        <div className="flex items-center">
+          {session && (
+            <Image
+              src={session.user?.image as string}
+              alt="user profile photo"
+              width={50}
+              height={50}
+            />
+          )}
+        </div>
+        <button onClick={() => signOut()}>ログアウト</button>
+      </ButtonWrapper>
       {rooms.map((room) => (
         <Room
           key={room.roomId}
