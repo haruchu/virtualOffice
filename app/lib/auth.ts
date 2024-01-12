@@ -13,10 +13,6 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     } as ClientType),
-    GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_SECRET_ID as string,
-    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
 };

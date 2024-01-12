@@ -1,19 +1,17 @@
 import styled from "styled-components";
 
-export const ButtonWrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 `;
 
 export const StyledButton = styled.button`
   font-size: 16px;
   display: flex;
   align-items: center;
-  gap: 4px;
-
-  & svg {
-    width: 20px;
-    height: 20px;
-  }
+  gap: 8px;
 `;

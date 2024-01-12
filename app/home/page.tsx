@@ -41,16 +41,14 @@ const Home = () => {
   return (
     <Wrapper>
       <ButtonWrapper>
-        <div className="flex items-center">
-          {session && (
-            <Image
-              src={session.user?.image as string}
-              alt="user profile photo"
-              width={50}
-              height={50}
-            />
-          )}
-        </div>
+        {session && (
+          <Image
+            src={session.user?.image as string}
+            alt="user profile photo"
+            width={30}
+            height={30}
+          />
+        )}
         <button onClick={() => signOut()}>ログアウト</button>
       </ButtonWrapper>
       {rooms.map((room) => (

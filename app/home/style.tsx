@@ -9,4 +9,10 @@ export const ButtonWrapper = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
+  display: flex;
+  gap: 10px;
+
+  & img {
+    border-radius: 50%;
+  }
 `;

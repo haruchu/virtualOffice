@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { LoginButton } from "./components/loginButton";
+import { LoginContent } from "./components/loginContent";
 import { authOptions } from "./lib/auth";
 import { getServerSession } from "next-auth";
 
@@ -16,7 +16,7 @@ export const App = async () => {
         height: "100vh",
       }}
     >
-      <LoginButton session={session} />
+      <LoginContent />
     </main>
   );
 };
