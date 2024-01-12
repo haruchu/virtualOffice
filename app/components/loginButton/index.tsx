@@ -1,6 +1,9 @@
 "use client";
 import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
+import MdiGithub from "./icons/MdiGithub";
+import { ButtonWrapper, StyledButton } from "./style";
+import RiGoogleFill from "./icons/RiGoogleFill";
 
 export const LoginButton = ({ session }: { session: Session | null }) => {
   return (
@@ -13,14 +16,20 @@ export const LoginButton = ({ session }: { session: Session | null }) => {
         // セッションがない場合、ログインを表示
         // ログインボタンを押すと、ログインページに遷移する
         !session && (
-          <>
-            <button onClick={() => signIn("google", {}, { prompt: "login" })}>
-              Googleでログイン
-            </button>
-            <button onClick={() => signIn("github", {}, { prompt: "login" })}>
-              Githubでログイン
-            </button>
-          </>
+          <ButtonWrapper>
+            <StyledButton
+              onClick={() => signIn("google", {}, { prompt: "login" })}
+            >
+              <RiGoogleFill />
+              <span>Googleでログイン</span>
+            </StyledButton>
+            <StyledButton
+              onClick={() => signIn("github", {}, { prompt: "login" })}
+            >
+              <MdiGithub />
+              <span>Githubでログイン</span>
+            </StyledButton>
+          </ButtonWrapper>
         )
       }
     </>
