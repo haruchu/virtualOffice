@@ -9,9 +9,3 @@ export const Wrapper = styled.div`
   gap: 10px;
 `;
 
-export const StyledButton = styled.button`
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;

@@ -4,6 +4,7 @@ import { Room, RoomType } from "../components/atoms/room";
 import { ButtonWrapper, Wrapper } from "./style";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { Button } from "@mui/material";
 
 const Home = () => {
   const router = useRouter();
@@ -49,7 +50,9 @@ const Home = () => {
             height={30}
           />
         )}
-        <button onClick={() => signOut()}>ログアウト</button>
+        <Button variant="contained" onClick={() => signOut()}>
+          ログアウト
+        </Button>
       </ButtonWrapper>
       {rooms.map((room) => (
         <Room

@@ -11,6 +11,7 @@ export const ButtonWrapper = styled.div`
   right: 20px;
   display: flex;
   gap: 10px;
+  align-items: center;
 
   & img {
     border-radius: 50%;
