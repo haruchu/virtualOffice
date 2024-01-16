@@ -3,11 +3,9 @@
 import { RemoteVideoStream, RoomSubscription } from "@skyway-sdk/room";
 import { FC, useEffect, useRef, useState } from "react";
 import {
-  ButtonWrapper,
   IconWrapper,
   LocalVideo,
   RemoteVideo,
-  ToggleWrapper,
   VideoContent,
   Wrapper,
   RoomName,
@@ -19,6 +17,7 @@ import { LuScreenShare } from "react-icons/lu";
 import { BiSolidVideoOff, BiSolidVideo } from "react-icons/bi";
 import { BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
 import { useRouter } from "next/navigation";
+import { IconButton } from "@mui/material";
 
 const Room = ({ params }: { params: { roomId: string } }) => {
   const audioContainerRef = useRef<HTMLDivElement>(null);
@@ -58,26 +57,45 @@ const Room = ({ params }: { params: { roomId: string } }) => {
       </VideoContent>
       <div ref={audioContainerRef} />
       <ToolsWrapper>
-        <ButtonWrapper id="leave" onClick={() => router.push("/")}>
+        <IconButton
+          id="leave"
+          size="large"
+          color="inherit"
+          onClick={() => router.push("/")}
+        >
           <IconWrapper>
             <ImExit />
           </IconWrapper>
-        </ButtonWrapper>
-        <ButtonWrapper id="share" onClick={() => onShare(id)}>
+        </IconButton>
+        <IconButton
+          id="share"
+          size="large"
+          color="inherit"
+          onClick={() => onShare(id)}
+        >
           <IconWrapper>
             <LuScreenShare />
           </IconWrapper>
-        </ButtonWrapper>
-        <ToggleWrapper ref={videoToggleRef} isActive={!isVideoDisabled}>
+        </IconButton>
+        <IconButton
+          size="large"
+          ref={videoToggleRef}
+          color={isVideoDisabled ? "inherit" : "error"}
+        >
           <IconWrapper>
             {isVideoDisabled ? <BiSolidVideo /> : <BiSolidVideoOff />}
           </IconWrapper>
-        </ToggleWrapper>
-        <ToggleWrapper ref={audioToggleRef} isActive={!isAudioDisabled}>
+        </IconButton>
+        <IconButton
+          id={id}
+          size="large"
+          ref={audioToggleRef}
+          color={isAudioDisabled ? "inherit" : "error"}
+        >
           <IconWrapper>
             {isAudioDisabled ? <BsFillMicFill /> : <BsFillMicMuteFill />}
           </IconWrapper>
-        </ToggleWrapper>
+        </IconButton>
       </ToolsWrapper>
     </Wrapper>
   );

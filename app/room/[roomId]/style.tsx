@@ -81,79 +81,15 @@ export const ToolsWrapper = styled.div`
   -ms-transform: translateX(-50%);
 `;
 
-export const ButtonWrapper = styled.button`
-  width: 40px;
-  height: 40px;
-  @media screen and (min-width: 600px) {
-    width: 50px;
-    height: 50px;
-  }
-  @media screen and (min-width: 1000px) {
-    width: 80px;
-    height: 80px;
-  }
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  border: 1px solid #aaa;
-  border-radius: 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #eee;
-    border: 1px solid #555;
-  }
-
-  &:active {
-    background-color: #ddd;
-    border: 1px solid #888;
-  }
-`;
-
 export const IconWrapper = styled.span`
-  font-size: 16px;
+  font-size: 24px;
   @media screen and (min-width: 600px) {
-    font-size: 20px;
+    font-size: 32px;
   }
   @media screen and (min-width: 1000px) {
-    font-size: 36px;
+    font-size: 48px;
   }
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-export const ToggleWrapper = styled.button<{ isActive: boolean }>`
-  width: 40px;
-  height: 40px;
-  @media screen and (min-width: 600px) {
-    width: 50px;
-    height: 50px;
-  }
-  @media screen and (min-width: 1000px) {
-    width: 80px;
-    height: 80px;
-  }
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  ${({ isActive }) =>
-    isActive
-      ? `background-color: #ddd;
-  border: 1px solid #888;`
-      : `background-color: #fff;
-  border: 1px solid #aaa;`}
-  border-radius: 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #eee;
-    border: 1px solid #555;
-  }
-
-  &:active {
-    background-color: #ddd;
-    border: 1px solid #888;
-  }
 `;
