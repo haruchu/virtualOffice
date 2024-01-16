@@ -6,6 +6,9 @@ import { Room } from "./index";
 const meta: Meta<typeof Room> = {
   title: "atoms/room",
   component: Room,
+  parameters: {
+    layout: "centered",
+  },
 };
 
 export default meta;

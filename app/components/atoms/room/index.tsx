@@ -11,19 +11,19 @@ import { IconWrapper, RoomName, RoomWrapper } from "./style";
 
 export type RoomType = "1" | "2" | "3" | "4" | "5" | "6";
 type RoomProps = {
-  roomName: string;
+  roomName?: string;
   roomType: RoomType;
   memberImages: string[];
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 type EachRoomProps = {
-  roomName: string;
+  roomName?: string;
   roomImagePath: string;
   memberImages: string[];
   roomType: RoomType;
   limit: number;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export const Room = ({
@@ -112,7 +112,7 @@ const EachRoom = ({
 }: EachRoomProps) => {
   return (
     <RoomWrapper roomType={roomType} onClick={onClick}>
-      <RoomName className="room-name">{roomName}</RoomName>
+      {roomName && <RoomName className="room-name">{roomName}</RoomName>}
       <Image src={roomImagePath} alt={"room"} className="room-image" />
       {memberImages.map((img, index) => {
         return (
