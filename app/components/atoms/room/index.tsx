@@ -14,6 +14,7 @@ type RoomProps = {
   roomName?: string;
   roomType: RoomType;
   memberImages: string[];
+  isDisplay?: boolean;
   onClick?: () => void;
 };
 
@@ -23,6 +24,7 @@ type EachRoomProps = {
   memberImages: string[];
   roomType: RoomType;
   limit: number;
+  isDisplay: boolean;
   onClick?: () => void;
 };
 
@@ -30,6 +32,7 @@ export const Room = ({
   roomName,
   roomType,
   memberImages,
+  isDisplay = false,
   onClick,
 }: RoomProps): JSX.Element => {
   switch (roomType) {
@@ -41,6 +44,7 @@ export const Room = ({
           memberImages={memberImages}
           roomType={roomType}
           limit={1}
+          isDisplay={isDisplay}
           onClick={onClick}
         />
       );
@@ -52,6 +56,7 @@ export const Room = ({
           memberImages={memberImages}
           roomType={roomType}
           limit={2}
+          isDisplay={isDisplay}
           onClick={onClick}
         />
       );
@@ -63,6 +68,7 @@ export const Room = ({
           memberImages={memberImages}
           roomType={roomType}
           limit={2}
+          isDisplay={isDisplay}
           onClick={onClick}
         />
       );
@@ -74,6 +80,7 @@ export const Room = ({
           memberImages={memberImages}
           roomType={roomType}
           limit={2}
+          isDisplay={isDisplay}
           onClick={onClick}
         />
       );
@@ -85,6 +92,7 @@ export const Room = ({
           memberImages={memberImages}
           roomType={roomType}
           limit={4}
+          isDisplay={isDisplay}
           onClick={onClick}
         />
       );
@@ -96,6 +104,7 @@ export const Room = ({
           memberImages={memberImages}
           roomType={roomType}
           limit={6}
+          isDisplay={isDisplay}
           onClick={onClick}
         />
       );
@@ -108,10 +117,11 @@ const EachRoom = ({
   memberImages,
   roomType,
   limit,
+  isDisplay,
   onClick,
 }: EachRoomProps) => {
   return (
-    <RoomWrapper roomType={roomType} onClick={onClick}>
+    <RoomWrapper roomType={roomType} isDisplay={isDisplay} onClick={onClick}>
       {roomName && <RoomName className="room-name">{roomName}</RoomName>}
       <Image src={roomImagePath} alt={"room"} className="room-image" />
       {memberImages.map((img, index) => {

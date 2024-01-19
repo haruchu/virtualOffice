@@ -31,7 +31,7 @@ export const RoomCard = ({ count, roomType, updateCount }: RoomCardProps) => {
   return (
     <Wrapper>
       <CountBudge>{count}</CountBudge>
-      <Room roomType={roomType} memberImages={[]} />
+      <Room roomType={roomType} memberImages={[]} isDisplay />
       <Detail>最大人数：{capacityText(roomType)}</Detail>
       <ButtonWrapper>
         <IconButton

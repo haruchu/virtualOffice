@@ -8,6 +8,11 @@ export const Wrapper = styled.div`
   gap: 10px;
   border-radius: 12px;
   position: relative;
+
+  & img {
+    width: 200px;
+    height: 200px;
+  }
 `;
 
 export const CountBudge = styled.div`

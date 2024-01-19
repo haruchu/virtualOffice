@@ -5,22 +5,29 @@ export const IconWrapper = styled.span`
   position: absolute;
 `;
 
-const Wrapper = styled.div`
+export const RoomWrapper = styled.div<{
+  roomType: RoomType;
+  isDisplay: boolean;
+}>`
   cursor: pointer;
   position: relative;
   display: flex;
-  img {
-    transition-duration: 0.5s;
-  }
 
-  &:hover img {
-    transform: scale(1.05);
-  }
-`;
+  ${({ isDisplay }) =>
+    !isDisplay &&
+    `
+    img {
+      transition-duration: 0.5s;
+    }
+  
+    &:hover img {
+      transform: scale(1.05);
+    }
+  `}
 
-export const RoomWrapper = styled(Wrapper)<{ roomType: RoomType }>`
-  ${({ roomType }) =>
+  ${({ roomType, isDisplay }) =>
     roomType === "1" &&
+    !isDisplay &&
     `
     width: 200px;
     height: 200px;
@@ -31,8 +38,9 @@ export const RoomWrapper = styled(Wrapper)<{ roomType: RoomType }>`
 
   `}
 
-  ${({ roomType }) =>
+  ${({ roomType, isDisplay }) =>
     roomType === "2" &&
+    !isDisplay &&
     `
     width: 200px;
     height: 200px;
@@ -47,8 +55,9 @@ export const RoomWrapper = styled(Wrapper)<{ roomType: RoomType }>`
 
   `}
 
-  ${({ roomType }) =>
+  ${({ roomType, isDisplay }) =>
     roomType === "3" &&
+    !isDisplay &&
     `
     width: 200px;
     height: 200px;
@@ -64,8 +73,9 @@ export const RoomWrapper = styled(Wrapper)<{ roomType: RoomType }>`
   `}
 
   
-  ${({ roomType }) =>
+  ${({ roomType, isDisplay }) =>
     roomType === "4" &&
+    !isDisplay &&
     `
     width: 200px;
     height: 200px;
@@ -80,8 +90,9 @@ export const RoomWrapper = styled(Wrapper)<{ roomType: RoomType }>`
  
   `}
 
-  ${({ roomType }) =>
+  ${({ roomType, isDisplay }) =>
     roomType === "5" &&
+    !isDisplay &&
     `
     width: 200px;
     height: 200px;
@@ -104,8 +115,9 @@ export const RoomWrapper = styled(Wrapper)<{ roomType: RoomType }>`
  
   `}
 
-  ${({ roomType }) =>
+  ${({ roomType, isDisplay }) =>
     roomType === "6" &&
+    !isDisplay &&
     `    
     width: 300px;
     height: 300px;
@@ -135,6 +147,13 @@ export const RoomWrapper = styled(Wrapper)<{ roomType: RoomType }>`
     }
 
 `}
+
+${({ isDisplay }) =>
+    isDisplay &&
+    `
+    width: 200px;
+    height: 200px;
+  `}
 `;
 
 export const RoomName = styled.span`
