@@ -24,88 +24,74 @@ type EachRoomProps = {
   memberImages: string[];
   roomType: RoomType;
   limit: number;
-  isDisplay: boolean;
+  isDisplay?: boolean;
   onClick?: () => void;
 };
 
 export const Room = ({
-  roomName,
   roomType,
-  memberImages,
-  isDisplay = false,
   onClick,
+  ...rest
 }: RoomProps): JSX.Element => {
   switch (roomType) {
     case "1":
       return (
         <EachRoom
-          roomName={roomName}
           roomImagePath={room1}
-          memberImages={memberImages}
           roomType={roomType}
           limit={1}
-          isDisplay={isDisplay}
           onClick={onClick}
+          {...rest}
         />
       );
     case "2":
       return (
         <EachRoom
-          roomName={roomName}
           roomImagePath={room2}
-          memberImages={memberImages}
           roomType={roomType}
           limit={2}
-          isDisplay={isDisplay}
           onClick={onClick}
+          {...rest}
         />
       );
     case "3":
       return (
         <EachRoom
-          roomName={roomName}
           roomImagePath={room3}
-          memberImages={memberImages}
           roomType={roomType}
           limit={2}
-          isDisplay={isDisplay}
           onClick={onClick}
+          {...rest}
         />
       );
     case "4":
       return (
         <EachRoom
-          roomName={roomName}
           roomImagePath={room4}
-          memberImages={memberImages}
           roomType={roomType}
           limit={2}
-          isDisplay={isDisplay}
           onClick={onClick}
+          {...rest}
         />
       );
     case "5":
       return (
         <EachRoom
-          roomName={roomName}
           roomImagePath={room5}
-          memberImages={memberImages}
           roomType={roomType}
           limit={4}
-          isDisplay={isDisplay}
           onClick={onClick}
+          {...rest}
         />
       );
     case "6":
       return (
         <EachRoom
-          roomName={roomName}
           roomImagePath={room6}
-          memberImages={memberImages}
           roomType={roomType}
           limit={6}
-          isDisplay={isDisplay}
           onClick={onClick}
+          {...rest}
         />
       );
   }
@@ -117,7 +103,7 @@ const EachRoom = ({
   memberImages,
   roomType,
   limit,
-  isDisplay,
+  isDisplay = false,
   onClick,
 }: EachRoomProps) => {
   return (
