@@ -5,8 +5,13 @@ export const Wrapper = styled.div`
   height: 100vh;
   flex-direction: column;
   gap: 30px;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  @media screen and (max-width: 600px) {
+    justify-content: flex-start;
+    padding: 30px 0;
+  }
 `;
 
 export const FormWrapper = styled.div`
@@ -24,5 +29,7 @@ export const FormTitle = styled.h2`
 
 export const RoomCardWrapper = styled.div`
   display: flex;
+  justify-content: center;
   gap: 10px;
+  flex-wrap: wrap;
 `;
