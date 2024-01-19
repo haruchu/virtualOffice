@@ -3,9 +3,12 @@ import { signIn } from "next-auth/react";
 import { ButtonWrapper, Wrapper, LoginWrapper } from "./style";
 import { Button, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const LoginContent = () => {
   const router = useRouter();
+  const [id, setId] = useState("");
+  const [isError, setIsError] = useState(false);
 
   return (
     <Wrapper>
@@ -18,8 +21,23 @@ export const LoginContent = () => {
             label="Office ID"
             variant="outlined"
             size="small"
+            error={isError}
+            helperText="入室したいオフィスのIDを入力してください"
+            onChange={(e) => {
+              setIsError(false);
+              setId(e.target.value);
+            }}
           />
-          <Button variant="contained" onClick={() => signIn()}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              if (id === "") {
+                setIsError(true);
+              } else {
+                signIn();
+              }
+            }}
+          >
             ログイン
           </Button>
         </LoginWrapper>
