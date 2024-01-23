@@ -2,10 +2,14 @@
 
 import { Button, TextField } from "@mui/material";
 import {
+  AddRoomButtonWrapper,
+  ButtonWrapper,
+  ContentWrapper,
   FormTitle,
   FormWrapper,
   ReturnButtonWrapper,
   RoomCardWrapper,
+  RoomSettingWrapper,
   Wrapper,
 } from "./style";
 import { RoomCard } from "../components/atoms/roomCard";
@@ -13,7 +17,7 @@ import { RoomType } from "../components/atoms/room";
 import { useState } from "react";
 import OpenmojiReturn from "./icons/OpenmojiReturn";
 import { useRouter } from "next/navigation";
-import { postData } from "../action";
+import { postOfficeData } from "../action";
 
 const Create = () => {
   const router = useRouter();
@@ -50,62 +54,44 @@ const Create = () => {
   ]);
   return (
     <Wrapper>
-      <ReturnButtonWrapper>
-        <Button
-          variant="outlined"
-          startIcon={<OpenmojiReturn />}
-          onClick={() => router.push("/")}
-        >
-          戻る
-        </Button>
-      </ReturnButtonWrapper>
-      <FormWrapper>
-        <TextField
-          id="outlined-basic"
-          label="Office ID"
-          variant="outlined"
-          size="small"
-          onChange={(e) => setId(e.target.value)}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Office Name"
-          variant="outlined"
-          size="small"
-          onChange={(e) => setName(e.target.value)}
-        />
-      </FormWrapper>
-      <FormTitle>作成したい部屋の数を選択してください</FormTitle>
-      <RoomCardWrapper>
-        {rooms.map((room) => (
-          <RoomCard
-            key={room.roomType}
-            roomType={room.roomType as RoomType}
-            count={room.coount}
-            updateCount={(count) => {
-              const newRoom = rooms.map((r) => {
-                if (r.roomType === room.roomType) {
-                  return {
-                    ...r,
-                    coount: count,
-                  };
-                }
-                return r;
-              });
-              setRooms(newRoom);
-            }}
+      <ContentWrapper>
+        <ReturnButtonWrapper>
+          <Button
+            variant="outlined"
+            startIcon={<OpenmojiReturn />}
+            onClick={() => router.push("/")}
+          >
+            戻る
+          </Button>
+        </ReturnButtonWrapper>
+        <FormWrapper>
+          <TextField
+            id="outlined-basic"
+            label="Office ID"
+            variant="outlined"
+            size="small"
+            onChange={(e) => setId(e.target.value)}
           />
-        ))}
-      </RoomCardWrapper>
-      <Button
-        variant="contained"
-        type="submit"
-        onClick={async () => {
-          await postData();
-        }}
-      >
-        作成
-      </Button>
+        </FormWrapper>
+        <RoomSettingWrapper>
+          <AddRoomButtonWrapper>
+            <Button variant="contained" type="submit" onClick={() => {}}>
+              部屋追加
+            </Button>
+          </AddRoomButtonWrapper>
+        </RoomSettingWrapper>
+      </ContentWrapper>
+      <ButtonWrapper>
+        <Button
+          variant="contained"
+          type="submit"
+          onClick={async () => {
+            await postOfficeData();
+          }}
+        >
+          作成
+        </Button>
+      </ButtonWrapper>
     </Wrapper>
   );
 };
