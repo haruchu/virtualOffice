@@ -1,19 +1,16 @@
 "use client";
 
-import { Button, TextField } from "@mui/material";
+import { Button, Modal, TextField } from "@mui/material";
 import {
   AddRoomButtonWrapper,
   ButtonWrapper,
   ContentWrapper,
-  FormTitle,
   FormWrapper,
+  ModalBox,
   ReturnButtonWrapper,
-  RoomCardWrapper,
   RoomSettingWrapper,
   Wrapper,
 } from "./style";
-import { RoomCard } from "../components/atoms/roomCard";
-import { RoomType } from "../components/atoms/room";
 import { useState } from "react";
 import OpenmojiReturn from "./icons/OpenmojiReturn";
 import { useRouter } from "next/navigation";
@@ -52,6 +49,8 @@ const Create = () => {
       coount: 0,
     },
   ]);
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Wrapper>
       <ContentWrapper>
@@ -75,7 +74,11 @@ const Create = () => {
         </FormWrapper>
         <RoomSettingWrapper>
           <AddRoomButtonWrapper>
-            <Button variant="contained" type="submit" onClick={() => {}}>
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={() => setIsOpen(true)}
+            >
               部屋追加
             </Button>
           </AddRoomButtonWrapper>
@@ -92,6 +95,10 @@ const Create = () => {
           作成
         </Button>
       </ButtonWrapper>
+
+      <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+        <ModalBox></ModalBox>
+      </Modal>
     </Wrapper>
   );
 };
