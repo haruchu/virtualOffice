@@ -13,6 +13,7 @@ import { RoomType } from "../components/atoms/room";
 import { useState } from "react";
 import OpenmojiReturn from "./icons/OpenmojiReturn";
 import { useRouter } from "next/navigation";
+import { postData } from "../action";
 
 const Create = () => {
   const router = useRouter();
@@ -98,13 +99,10 @@ const Create = () => {
       </RoomCardWrapper>
       <Button
         variant="contained"
-        onClick={() =>
-          console.log({
-            id,
-            name,
-            rooms,
-          })
-        }
+        type="submit"
+        onClick={async () => {
+          await postData();
+        }}
       >
         作成
       </Button>

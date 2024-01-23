@@ -46,12 +46,30 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  room         Room @relation(fields: [roomId], references: [roomId])
+  roomId String
 }
 
 model VerificationToken {
   identifier String
-  token      String   @unique
+  token      String   
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Room {
+  roomId      String    @unique
+  roomType   String
+  office     Office   @relation(fields: [officeId], references: [officeId])
+  officeId    String
+  name        String
+  capacity    Int
+  users      User[]
+
+}
+
+model Office {
+  officeId    String    @unique
+  rooms       Room[]
 }
