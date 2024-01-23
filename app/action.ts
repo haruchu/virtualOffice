@@ -1,7 +1,17 @@
 "use server";
 import { prisma } from "./lib/db";
 
-export async function postData() {
+type OfficeType = {
+  officeId: string;
+  rooms: {
+    roomId: string;
+    roomType: string;
+    name: string;
+    capacity: number;
+  }[];
+};
+
+export async function postOfficeData() {
   try {
     await prisma.office.create({
       data: {
