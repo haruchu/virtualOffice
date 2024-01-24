@@ -38,6 +38,7 @@ export const FormTitle = styled.h2`
   padding: 0;
   font-size: 20px;
   font-weight: normal;
+  text-align: center;
 `;
 
 export const RoomSettingWrapper = styled.div`
@@ -55,8 +56,14 @@ export const AddRoomButtonWrapper = styled.div`
   width: 100%;
 `;
 
+export const SelectedRoomWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 export const ButtonWrapper = styled.div`
   display: flex;
+  gap: 30px;
   justify-content: center;
   width: 100%;
   padding: 20px;
@@ -73,6 +80,37 @@ export const ModalBox = ({ children }: PropsWithChildren) => {
     boxShadow: 24,
     borderRadius: "12px",
     p: 4,
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+    alignItems: "center",
   };
   return <Box sx={style}>{children}</Box>;
 };
+
+export const RoomWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  & img {
+    width: 150px;
+    height: 150px;
+
+    @media screen and (max-width: 600px) {
+      width: 100px;
+      height: 100px;
+    }
+  }
+`;
+
+export const FocusRoom = styled.div<{ isFocus: boolean }>`
+  border: 2px solid transparent;
+  border-radius: 12px;
+  ${({ isFocus }) =>
+    isFocus &&
+    `
+    border: 2px solid #00c;
+  `};
+`;

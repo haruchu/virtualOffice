@@ -151,8 +151,13 @@ export const RoomWrapper = styled.div<{
 ${({ isDisplay }) =>
     isDisplay &&
     `
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
+
+    @media screen and (max-width: 600px) {
+      width: 100px;
+      height: 100px;
+    }
   `}
 `;
 

@@ -5,51 +5,35 @@ import {
   AddRoomButtonWrapper,
   ButtonWrapper,
   ContentWrapper,
+  FocusRoom,
+  FormTitle,
   FormWrapper,
   ModalBox,
   ReturnButtonWrapper,
   RoomSettingWrapper,
+  RoomWrapper,
+  SelectedRoomWrapper,
   Wrapper,
 } from "./style";
 import { useState } from "react";
 import OpenmojiReturn from "./icons/OpenmojiReturn";
 import { useRouter } from "next/navigation";
 import { postOfficeData } from "../action";
+import { Room, RoomType } from "../components/atoms/room";
+
+type SettingRoomType = {
+  roomType: RoomType;
+  roomName: string;
+};
 
 const Create = () => {
   const router = useRouter();
   const [id, setId] = useState("");
   const [name, setName] = useState("");
-  const [rooms, setRooms] = useState([
-    {
-      roomType: "1",
-      coount: 0,
-    },
-    {
-      roomType: "2",
-
-      coount: 0,
-    },
-    {
-      roomType: "3",
-      coount: 0,
-    },
-    {
-      roomType: "4",
-
-      coount: 0,
-    },
-    {
-      roomType: "5",
-      coount: 0,
-    },
-    {
-      roomType: "6",
-
-      coount: 0,
-    },
-  ]);
+  const [rooms, setRooms] = useState<SettingRoomType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [focusRoomType, setFocusRoomType] = useState<RoomType>("1");
+  const [isError, setIsError] = useState(false);
 
   return (
     <Wrapper>
@@ -69,7 +53,11 @@ const Create = () => {
             label="Office ID"
             variant="outlined"
             size="small"
-            onChange={(e) => setId(e.target.value)}
+            error={isError}
+            onChange={(e) => {
+              setIsError(false);
+              setId(e.target.value);
+            }}
           />
         </FormWrapper>
         <RoomSettingWrapper>
@@ -77,11 +65,23 @@ const Create = () => {
             <Button
               variant="contained"
               type="submit"
-              onClick={() => setIsOpen(true)}
+              onClick={() => {
+                setIsError(false);
+                setIsOpen(true);
+              }}
             >
               部屋追加
             </Button>
           </AddRoomButtonWrapper>
+          <SelectedRoomWrapper>
+            {rooms.map((room) => (
+              <Room
+                roomType={room.roomType}
+                roomName={room.roomName}
+                memberImages={[]}
+              />
+            ))}
+          </SelectedRoomWrapper>
         </RoomSettingWrapper>
       </ContentWrapper>
       <ButtonWrapper>
@@ -89,15 +89,64 @@ const Create = () => {
           variant="contained"
           type="submit"
           onClick={async () => {
+            if (id === "") {
+              setIsError(true);
+              return;
+            }
             await postOfficeData();
           }}
         >
           作成
         </Button>
       </ButtonWrapper>
-
       <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-        <ModalBox></ModalBox>
+        <ModalBox>
+          <FormTitle>部屋のタイプを選択してください</FormTitle>
+          <RoomWrapper>
+            {[...Array(6).keys()].map((i) => (
+              <FocusRoom isFocus={focusRoomType == String(i + 1)}>
+                <Room
+                  roomType={String(i + 1) as RoomType}
+                  memberImages={[]}
+                  onClick={() => setFocusRoomType(String(i + 1) as RoomType)}
+                  isDisplay
+                />
+              </FocusRoom>
+            ))}
+          </RoomWrapper>
+          <TextField
+            id="outlined-basic"
+            label="部屋名"
+            variant="outlined"
+            size="small"
+            error={isError}
+            onChange={(e) => {
+              setIsError(false);
+              setName(e.target.value);
+            }}
+          />
+          <ButtonWrapper>
+            <Button variant="outlined" onClick={() => setIsOpen(false)}>
+              キャンセル
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={() => {
+                if (name === "") {
+                  setIsError(true);
+                  return;
+                }
+                let a: SettingRoomType[] = [...rooms];
+                a.push({ roomType: focusRoomType, roomName: name });
+                setRooms(a);
+                setIsOpen(false);
+              }}
+            >
+              確定
+            </Button>
+          </ButtonWrapper>
+        </ModalBox>
       </Modal>
     </Wrapper>
   );
