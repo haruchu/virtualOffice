@@ -26,6 +26,23 @@ type SettingRoomType = {
   roomName: string;
 };
 
+const translateToCapacity = (roomType: RoomType) => {
+  switch (roomType) {
+    case "1":
+      return 2;
+    case "2":
+      return 2;
+    case "3":
+      return 2;
+    case "4":
+      return 2;
+    case "5":
+      return 4;
+    case "6":
+      return 6;
+  }
+};
+
 const Create = () => {
   const router = useRouter();
   const [id, setId] = useState("");
@@ -94,7 +111,17 @@ const Create = () => {
               setIsError(true);
               return;
             }
-            await postOfficeData();
+            const roomData = [...rooms].map((room) => {
+              return {
+                roomType: room.roomType,
+                name: room.roomName,
+                capacity: translateToCapacity(room.roomType),
+              };
+            });
+            await postOfficeData({
+              officeId: id,
+              rooms: roomData,
+            });
           }}
         >
           作成
