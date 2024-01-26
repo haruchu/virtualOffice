@@ -76,6 +76,7 @@ const Create = () => {
           <SelectedRoomWrapper>
             {rooms.map((room) => (
               <Room
+                key={room.roomType}
                 roomType={room.roomType}
                 roomName={room.roomName}
                 memberImages={[]}
@@ -104,7 +105,7 @@ const Create = () => {
           <FormTitle>部屋のタイプを選択してください</FormTitle>
           <RoomWrapper>
             {[...Array(6).keys()].map((i) => (
-              <FocusRoom isFocus={focusRoomType == String(i + 1)}>
+              <FocusRoom isFocus={focusRoomType == String(i + 1)} key={i}>
                 <Room
                   roomType={String(i + 1) as RoomType}
                   memberImages={[]}
