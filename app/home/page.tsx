@@ -24,14 +24,15 @@ const Home = () => {
     (async () => {
       const officeId = localStorage.getItem("officeId") as string;
       const office = await getOfficeData(officeId);
-      setRooms(
-        office?.rooms.map((room) => ({
-          roomName: room.name,
-          roomId: room.roomId,
-          roomType: room.roomType,
-          memberImages: room.users.map((user) => user.image),
-        })) as Room[]
-      );
+      if (office !== null)
+        setRooms(
+          office?.rooms.map((room) => ({
+            roomName: room.name,
+            roomId: room.roomId,
+            roomType: room.roomType,
+            memberImages: room.users.map((user) => user.image),
+          })) as Room[]
+        );
     })();
   }, []);
 
@@ -48,19 +49,29 @@ const Home = () => {
             height={30}
           />
         )}
-        <Button variant="contained" onClick={() => signOut()}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            localStorage.removeItem("officeId");
+            signOut();
+          }}
+        >
           ログアウト
         </Button>
       </ButtonWrapper>
-      {rooms.map((room) => (
-        <Room
-          key={room.roomId}
-          roomName={room.roomName}
-          roomType={room.roomType}
-          memberImages={room.memberImages}
-          onClick={() => router.push(`/room/${room.roomName}/`)}
-        />
-      ))}
+      {rooms.length !== 0 ? (
+        rooms.map((room) => (
+          <Room
+            key={room.roomId}
+            roomName={room.roomName}
+            roomType={room.roomType}
+            memberImages={room.memberImages}
+            onClick={() => router.push(`/room/${room.roomName}/`)}
+          />
+        ))
+      ) : (
+        <span>部屋がありません</span>
+      )}
     </Wrapper>
   );
 };
