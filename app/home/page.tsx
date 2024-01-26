@@ -5,39 +5,37 @@ import { ButtonWrapper, Wrapper } from "./style";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Button } from "@mui/material";
+import { useEffect, useState } from "react";
+import { getOfficeData } from "../action";
+
+type Room = {
+  roomName: string;
+  roomId: number;
+  roomType: RoomType;
+  memberImages: string[];
+};
 
 const Home = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  const [rooms, setRooms] = useState<Room[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const officeId = localStorage.getItem("officeId") as string;
+      const office = await getOfficeData(officeId);
+      setRooms(
+        office?.rooms.map((room) => ({
+          roomName: room.name,
+          roomId: room.roomId,
+          roomType: room.roomType,
+          memberImages: room.users.map((user) => user.image),
+        })) as Room[]
+      );
+    })();
+  }, []);
 
   if (session == null) redirect("/login");
-
-  // room一覧、部屋に参加しているユーザーは今後DBからとってくる
-  const rooms: {
-    roomName: string;
-    roomId: string;
-    roomType: RoomType;
-    memberImages: string[];
-  }[] = [
-    {
-      roomName: "部屋１",
-      roomId: "room1",
-      roomType: "2",
-      memberImages: [],
-    },
-    {
-      roomName: "部屋2",
-      roomId: "room2",
-      roomType: "4",
-      memberImages: [],
-    },
-    {
-      roomName: "部屋3",
-      roomId: "room3",
-      roomType: "6",
-      memberImages: [],
-    },
-  ];
 
   return (
     <Wrapper>
@@ -60,7 +58,7 @@ const Home = () => {
           roomName={room.roomName}
           roomType={room.roomType}
           memberImages={room.memberImages}
-          onClick={() => router.push(`/room/${room.roomId}/`)}
+          onClick={() => router.push(`/room/${room.roomName}/`)}
         />
       ))}
     </Wrapper>

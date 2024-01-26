@@ -27,3 +27,26 @@ export async function postOfficeData({ officeId, rooms }: OfficeType) {
     await prisma.$disconnect();
   }
 }
+
+export async function getOfficeData(officeId: string) {
+  try {
+    const office = await prisma.office.findUnique({
+      where: {
+        officeId: officeId,
+      },
+      include: {
+        rooms: {
+          include: {
+            users: true,
+          },
+        },
+      },
+    });
+    console.log(office);
+    return office;
+  } catch (error) {
+    console.error("データ取得中にエラーが発生しました:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}

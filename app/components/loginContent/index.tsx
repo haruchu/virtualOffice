@@ -34,6 +34,7 @@ export const LoginContent = () => {
               if (id === "") {
                 setIsError(true);
               } else {
+                localStorage.setItem("officeId", id);
                 signIn();
               }
             }}
