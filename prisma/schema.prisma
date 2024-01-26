@@ -47,7 +47,9 @@ model User {
   accounts      Account[]
   sessions      Session[]
   room         Room @relation(fields: [roomId], references: [roomId])
-  roomId String
+  roomId Int
+
+  @@index([roomId])
 }
 
 model VerificationToken {
@@ -59,7 +61,7 @@ model VerificationToken {
 }
 
 model Room {
-  roomId      String    @unique
+  roomId      Int     @id @default(autoincrement())
   roomType   String
   office     Office   @relation(fields: [officeId], references: [officeId])
   officeId    String
