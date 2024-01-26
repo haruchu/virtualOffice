@@ -122,6 +122,8 @@ const Create = () => {
               officeId: id,
               rooms: roomData,
             });
+            alert("作成できました！");
+            router.push("/");
           }}
         >
           作成
