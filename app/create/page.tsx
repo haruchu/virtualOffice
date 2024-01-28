@@ -15,7 +15,7 @@ import {
   SelectedRoomWrapper,
   Wrapper,
 } from "./style";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import OpenmojiReturn from "./icons/OpenmojiReturn";
 import { useRouter } from "next/navigation";
 import { getOfficeData, postOfficeData } from "../action";
