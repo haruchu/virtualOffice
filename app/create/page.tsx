@@ -15,10 +15,10 @@ import {
   SelectedRoomWrapper,
   Wrapper,
 } from "./style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OpenmojiReturn from "./icons/OpenmojiReturn";
 import { useRouter } from "next/navigation";
-import { postOfficeData } from "../action";
+import { getOfficeData, postOfficeData } from "../action";
 import { Room, RoomType } from "../components/atoms/room";
 
 type SettingRoomType = {
@@ -74,7 +74,7 @@ const Create = () => {
             size="small"
             error={errorText !== ""}
             helperText={errorText}
-            onChange={(e) => {
+            onChange={async (e) => {
               setErrorText("");
               setId(e.target.value);
             }}
@@ -113,6 +113,11 @@ const Create = () => {
           onClick={async () => {
             if (id === "") {
               setErrorText("IDを入力してください");
+              return;
+            }
+            const office = await getOfficeData(id);
+            if (office !== null) {
+              setErrorText("すでに存在するIDです");
               return;
             }
             if (rooms.length === 0) {
