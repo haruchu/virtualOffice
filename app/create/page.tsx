@@ -50,7 +50,9 @@ const Create = () => {
   const [rooms, setRooms] = useState<SettingRoomType[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [focusRoomType, setFocusRoomType] = useState<RoomType>("1");
-  const [isError, setIsError] = useState(false);
+  const [errorText, setErrorText] = useState("");
+  const [errorModalText, setErrorModalText] = useState("");
+  const [isSubmmited, setIsSubmmited] = useState(false);
 
   return (
     <Wrapper>
@@ -70,9 +72,10 @@ const Create = () => {
             label="Office ID"
             variant="outlined"
             size="small"
-            error={isError}
+            error={errorText !== ""}
+            helperText={errorText}
             onChange={(e) => {
-              setIsError(false);
+              setErrorText("");
               setId(e.target.value);
             }}
           />
@@ -83,7 +86,7 @@ const Create = () => {
               variant="contained"
               type="submit"
               onClick={() => {
-                setIsError(false);
+                setErrorText("");
                 setIsOpen(true);
               }}
             >
@@ -106,11 +109,17 @@ const Create = () => {
         <Button
           variant="contained"
           type="submit"
+          disabled={isSubmmited}
           onClick={async () => {
             if (id === "") {
-              setIsError(true);
+              setErrorText("IDを入力してください");
               return;
             }
+            if (rooms.length === 0) {
+              setIsOpen(true);
+              return;
+            }
+            setIsSubmmited(true);
             const roomData = [...rooms].map((room) => {
               return {
                 roomType: room.roomType,
@@ -118,7 +127,7 @@ const Create = () => {
                 capacity: translateToCapacity(room.roomType),
               };
             });
-            await postOfficeData({
+            postOfficeData({
               officeId: id,
               rooms: roomData,
             });
@@ -131,7 +140,7 @@ const Create = () => {
       </ButtonWrapper>
       <Modal open={isOpen} onClose={() => setIsOpen(false)}>
         <ModalBox>
-          <FormTitle>部屋のタイプを選択してください</FormTitle>
+          <FormTitle>追加したい部屋を選択してください</FormTitle>
           <RoomWrapper>
             {[...Array(6).keys()].map((i) => (
               <FocusRoom isFocus={focusRoomType == String(i + 1)} key={i}>
@@ -149,9 +158,10 @@ const Create = () => {
             label="部屋名"
             variant="outlined"
             size="small"
-            error={isError}
+            error={errorModalText !== ""}
+            helperText={errorModalText}
             onChange={(e) => {
-              setIsError(false);
+              setErrorModalText("");
               setName(e.target.value);
             }}
           />
@@ -164,7 +174,7 @@ const Create = () => {
               type="submit"
               onClick={() => {
                 if (name === "") {
-                  setIsError(true);
+                  setErrorModalText("部屋名を入力してください");
                   return;
                 }
                 let a: SettingRoomType[] = [...rooms];
