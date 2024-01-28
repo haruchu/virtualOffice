@@ -46,9 +46,9 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  officeId      String
-  room         Room @relation(fields: [roomId], references: [roomId])
-  roomId Int
+  officeId      String?
+  room         Room? @relation(fields: [roomId], references: [roomId])
+  roomId Int?
 
   @@index([roomId])
 }

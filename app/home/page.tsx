@@ -6,7 +6,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getOfficeData } from "../action";
+import { addUserToRoom, getOfficeData } from "../action";
 
 type Room = {
   roomName: string;
@@ -36,7 +36,7 @@ const Home = () => {
     })();
   }, []);
 
-  if (session == null) redirect("/login");
+  if (!session) redirect("/login");
 
   return (
     <Background>
@@ -67,7 +67,10 @@ const Home = () => {
               roomName={room.roomName}
               roomType={room.roomType}
               memberImages={room.memberImages}
-              onClick={() => router.push(`/room/${room.roomName}/`)}
+              onClick={() => {
+                router.push(`/room/${room.roomName}/`);
+                addUserToRoom(session.user?.id, room.roomId);
+              }}
             />
           ))
         ) : (

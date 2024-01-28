@@ -42,11 +42,29 @@ export async function getOfficeData(officeId: string) {
         },
       },
     });
-    console.log(office);
     return office;
   } catch (error) {
     console.error("データ取得中にエラーが発生しました:", error);
   } finally {
     await prisma.$disconnect();
+  }
+}
+
+export async function addUserToRoom(userId: string, roomId: number) {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        roomId: roomId,
+      },
+    });
+
+    console.log(
+      `User with ID ${userId} added to room with ID ${roomId} successfully.`
+    );
+    return updatedUser;
+  } catch (error) {
+    console.error("Error adding user to room:", error);
+    throw error;
   }
 }
