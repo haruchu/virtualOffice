@@ -1,7 +1,7 @@
 "use client";
 import { redirect, useRouter } from "next/navigation";
 import { Room, RoomType } from "../components/atoms/room";
-import { ButtonWrapper, Wrapper } from "./style";
+import { Background, ButtonWrapper, Wrapper } from "./style";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Button } from "@mui/material";
@@ -39,40 +39,42 @@ const Home = () => {
   if (session == null) redirect("/login");
 
   return (
-    <Wrapper>
-      <ButtonWrapper>
-        {session && (
-          <Image
-            src={session.user?.image as string}
-            alt="user profile photo"
-            width={30}
-            height={30}
-          />
+    <Background>
+      <Wrapper>
+        <ButtonWrapper>
+          {session && (
+            <Image
+              src={session.user?.image as string}
+              alt="user profile photo"
+              width={30}
+              height={30}
+            />
+          )}
+          <Button
+            variant="contained"
+            onClick={() => {
+              localStorage.removeItem("officeId");
+              signOut();
+            }}
+          >
+            ログアウト
+          </Button>
+        </ButtonWrapper>
+        {rooms.length !== 0 ? (
+          rooms.map((room) => (
+            <Room
+              key={room.roomId}
+              roomName={room.roomName}
+              roomType={room.roomType}
+              memberImages={room.memberImages}
+              onClick={() => router.push(`/room/${room.roomName}/`)}
+            />
+          ))
+        ) : (
+          <span>部屋がありません</span>
         )}
-        <Button
-          variant="contained"
-          onClick={() => {
-            localStorage.removeItem("officeId");
-            signOut();
-          }}
-        >
-          ログアウト
-        </Button>
-      </ButtonWrapper>
-      {rooms.length !== 0 ? (
-        rooms.map((room) => (
-          <Room
-            key={room.roomId}
-            roomName={room.roomName}
-            roomType={room.roomType}
-            memberImages={room.memberImages}
-            onClick={() => router.push(`/room/${room.roomName}/`)}
-          />
-        ))
-      ) : (
-        <span>部屋がありません</span>
-      )}
-    </Wrapper>
+      </Wrapper>
+    </Background>
   );
 };
 

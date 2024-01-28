@@ -1,4 +1,12 @@
 import styled from "styled-components";
+import bg from "./images/floor.jpg";
+
+export const Background = styled.div`
+  height: 100%;
+  width: 100%;
+  background-image: url(${bg.src});
+  background-repeat: repeat;
+`;
 
 export const Wrapper = styled.div`
   display: flex;
