@@ -51,7 +51,7 @@ const Room = ({ params }: { params: { roomId: string } }) => {
 
   return (
     <Wrapper>
-      <RoomName>ルーム名: {id}</RoomName>
+      <RoomName>ルーム名: {decodeURIComponent(id)}</RoomName>
       <VideoContent memberCount={videoSubscriptions.length + 1}>
         <LocalVideo ref={localVideoRef} isVideoEnabled={isVideoDisabled} />
         {videoSubscriptions.map((subscription) => (
