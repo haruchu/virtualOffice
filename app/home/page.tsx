@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { addUserToRoom, getOfficeData } from "../action";
 import { User } from "next-auth";
+import Pusher from "pusher-js";
 
 type Room = {
   roomName: string;
@@ -21,30 +22,52 @@ const Home = () => {
   const { data: session } = useSession();
   const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
+  const [log, setLog] = useState<string[]>([]);
 
   useEffect(() => {
-    (async () => {
-      const officeId = localStorage.getItem("officeId") as string;
+    var pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
+      cluster: "ap3",
+    });
+
+    var channel = pusher.subscribe("channel");
+    channel.bind("event", async function (data: any) {
+      const parsedComments = JSON.parse(data.message);
+
+      setLog((prev) => [...prev, parsedComments]);
+    });
+
+    return () => {
+      pusher.unsubscribe("channel");
+    };
+  }, []);
+
+  useEffect(() => {
+    const officeId = localStorage.getItem("officeId") as string;
+    const getRooms = async () => {
       const office = await getOfficeData(officeId);
-      if (office !== null)
+
+      if (office !== null && office !== undefined)
         setRooms(
           office?.rooms.map(
             (room: {
               name: string;
-              roomId: string;
-              roomType: RoomType;
+              roomId: number;
+              roomType: string;
               users: User[];
-            }) => ({
-              roomName: room.name,
-              roomId: room.roomId,
-              roomType: room.roomType,
-              memberImages: room.users.map((user) => user.image),
-            })
-          ) as Room[]
+            }) =>
+              ({
+                roomName: room.name,
+                roomId: room.roomId,
+                roomType: room.roomType,
+                memberImages: room.users.map((user) => user.image),
+              }) as Room
+          )
         );
+
       setLoading(false);
-    })();
-  }, []);
+    };
+    getRooms();
+  }, [log]);
 
   if (!session) redirect("/login");
 

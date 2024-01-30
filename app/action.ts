@@ -42,6 +42,7 @@ export async function getOfficeData(officeId: string) {
         },
       },
     });
+
     return office;
   } catch (error) {
     console.error("データ取得中にエラーが発生しました:", error);
@@ -52,11 +53,24 @@ export async function getOfficeData(officeId: string) {
 
 export async function addUserToRoom(userId: string, roomId: number) {
   try {
+    const Pusher = require("pusher");
+
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
         roomId: roomId,
       },
+    });
+    const pusher = new Pusher({
+      appId: process.env.PUSHER_APP_ID,
+      key: process.env.NEXT_PUBLIC_PUSHER_KEY,
+      secret: process.env.PUSHER_SECRET,
+      cluster: "ap3",
+      useTLS: true,
+    });
+
+    await pusher.trigger("channel", "event", {
+      message: `${JSON.stringify(`${userId} enter to ${roomId}`)}\n\n`,
     });
     console.log(
       `User with ID ${userId} added to room with ID ${roomId} successfully.`
@@ -70,6 +84,8 @@ export async function addUserToRoom(userId: string, roomId: number) {
 
 export async function removeUserFromRoom(userId: string) {
   try {
+    const Pusher = require("pusher");
+
     // UserのroomIdをnullに更新して、関連付けを解除する
     const updatedUser = await prisma.user.update({
       where: { id: userId },
@@ -77,7 +93,17 @@ export async function removeUserFromRoom(userId: string) {
         roomId: null,
       },
     });
+    const pusher = new Pusher({
+      appId: process.env.PUSHER_APP_ID,
+      key: process.env.NEXT_PUBLIC_PUSHER_KEY,
+      secret: process.env.PUSHER_SECRET,
+      cluster: "ap3",
+      useTLS: true,
+    });
 
+    await pusher.trigger("channel", "event", {
+      message: `${JSON.stringify(`${userId} exited`)}\n\n`,
+    });
     console.log(`User with ID ${userId} removed from room successfully.`);
     return updatedUser;
   } catch (error) {
@@ -85,4 +111,3 @@ export async function removeUserFromRoom(userId: string) {
     throw error;
   }
 }
-
