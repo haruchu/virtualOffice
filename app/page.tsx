@@ -1,11 +1,10 @@
+"use client";
 import { redirect } from "next/navigation";
 import { LoginContent } from "./components/loginContent";
-import { authOptions } from "./lib/auth";
-import { getServerSession } from "next-auth";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 
-export const App = async () => {
-  const session = await getServerSession(authOptions);
+const Page = () => {
+  const { data: session } = useSession();
 
   if (session) redirect("/home");
   return (
@@ -17,11 +16,9 @@ export const App = async () => {
         height: "100vh",
       }}
     >
-      <SessionProvider session={session}>
-        <LoginContent />
-      </SessionProvider>
+      <LoginContent />
     </main>
   );
 };
 
-export default App;
+export default Page;
