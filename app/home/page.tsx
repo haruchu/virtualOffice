@@ -19,6 +19,7 @@ const Home = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -33,6 +34,7 @@ const Home = () => {
             memberImages: room.users.map((user) => user.image),
           })) as Room[]
         );
+      setLoading(false);
     })();
   }, []);
 
@@ -60,7 +62,9 @@ const Home = () => {
             ログアウト
           </Button>
         </ButtonWrapper>
-        {rooms.length !== 0 ? (
+        {loading ? (
+          <span>Loading...</span>
+        ) : rooms.length !== 0 ? (
           rooms.map((room) => (
             <Room
               key={room.roomId}
