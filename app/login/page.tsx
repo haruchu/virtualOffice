@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { LoginContent } from "../components/loginContent";
 import { redirect } from "next/navigation";
 import { Wrapper } from "./style";
+import { CircularProgress } from "@mui/material";
 
 const Login = () => {
   const { data: session, status } = useSession();
@@ -18,7 +19,7 @@ const Login = () => {
           height: "100vh",
         }}
       >
-        <span>Loading...</span>
+        <CircularProgress />
       </div>
     );
   }

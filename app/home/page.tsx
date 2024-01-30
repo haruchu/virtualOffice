@@ -4,7 +4,7 @@ import { Room, RoomType } from "../components/atoms/room";
 import { Background, ButtonWrapper, Wrapper } from "./style";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { addUserToRoom, getOfficeData } from "../action";
 import { User } from "next-auth";
@@ -94,7 +94,7 @@ const Home = () => {
           </Button>
         </ButtonWrapper>
         {loading ? (
-          <span>Loading...</span>
+          <CircularProgress />
         ) : rooms.length !== 0 ? (
           rooms.map((room) => (
             <Room
