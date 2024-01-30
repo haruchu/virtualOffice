@@ -18,6 +18,8 @@ import { BiSolidVideoOff, BiSolidVideo } from "react-icons/bi";
 import { BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import { IconButton } from "@mui/material";
+import { useSession } from "next-auth/react";
+import { removeUserFromRoom } from "@/app/action";
 
 const Room = ({ params }: { params: { roomId: string } }) => {
   const audioContainerRef = useRef<HTMLDivElement>(null);
@@ -30,6 +32,7 @@ const Room = ({ params }: { params: { roomId: string } }) => {
   const [isVideoDisabled, setIsVideoDisabled] = useState(true);
   const [isAudioDisabled, setIsAudioDisabled] = useState(true);
   const id = params.roomId;
+  const { data: session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -61,7 +64,11 @@ const Room = ({ params }: { params: { roomId: string } }) => {
           id="leave"
           size="large"
           color="inherit"
-          onClick={() => router.push("/")}
+          onClick={() => {
+            router.push("/home");
+            // @ts-ignore
+            removeUserFromRoom(session?.user?.id);
+          }}
         >
           <IconWrapper>
             <ImExit />

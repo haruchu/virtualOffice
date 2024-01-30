@@ -58,7 +58,6 @@ export async function addUserToRoom(userId: string, roomId: number) {
         roomId: roomId,
       },
     });
-
     console.log(
       `User with ID ${userId} added to room with ID ${roomId} successfully.`
     );
@@ -68,3 +67,22 @@ export async function addUserToRoom(userId: string, roomId: number) {
     throw error;
   }
 }
+
+export async function removeUserFromRoom(userId: string) {
+  try {
+    // UserのroomIdをnullに更新して、関連付けを解除する
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        roomId: null,
+      },
+    });
+
+    console.log(`User with ID ${userId} removed from room successfully.`);
+    return updatedUser;
+  } catch (error) {
+    console.error("Error removing user from room:", error);
+    throw error;
+  }
+}
+

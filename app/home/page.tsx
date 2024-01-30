@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { addUserToRoom, getOfficeData } from "../action";
+import { User } from "next-auth";
 
 type Room = {
   roomName: string;
@@ -27,12 +28,19 @@ const Home = () => {
       const office = await getOfficeData(officeId);
       if (office !== null)
         setRooms(
-          office?.rooms.map((room) => ({
-            roomName: room.name,
-            roomId: room.roomId,
-            roomType: room.roomType,
-            memberImages: room.users.map((user) => user.image),
-          })) as Room[]
+          office?.rooms.map(
+            (room: {
+              name: string;
+              roomId: string;
+              roomType: RoomType;
+              users: User[];
+            }) => ({
+              roomName: room.name,
+              roomId: room.roomId,
+              roomType: room.roomType,
+              memberImages: room.users.map((user) => user.image),
+            })
+          ) as Room[]
         );
       setLoading(false);
     })();
@@ -73,6 +81,7 @@ const Home = () => {
               memberImages={room.memberImages}
               onClick={() => {
                 router.push(`/room/${room.roomName}/`);
+                // @ts-ignore
                 addUserToRoom(session.user?.id, room.roomId);
               }}
             />
